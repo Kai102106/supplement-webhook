@@ -9,6 +9,9 @@ app = Flask(__name__)
 df = pd.read_csv('workout_supplement_product(AutoRecovered).csv', encoding='utf-8-sig')
 
 # Short timing/FAQ tips shown alongside product_info answers, keyed by product_category
+# USD to MYR exchange rate — update this number whenever rates change
+USD_TO_MYR = 4.20
+
 TIPS = {
     "protein": "💡 Tip: Protein is best taken within an hour after your workout.",
     "creatine": "💡 Tip: Creatine can be taken any time of day, ideally after training.",
@@ -74,8 +77,9 @@ def webhook():
         product = matched.iloc[0]
 
         if intent_name == 'Pricing_info':
+            price_myr = float(product['price']) * USD_TO_MYR
             response_text = (
-                f"💰 {product['product_name']} is priced at RM{product['price']}.\n\n"
+                f"💰 {product['product_name']} is priced at RM{price_myr:.2f}.\n\n"
                 f"🔗 Shopee Link: {product['link']}"
             )
 
@@ -96,7 +100,7 @@ def webhook():
         top = matched.head(5)
 
         if intent_name == 'Pricing_info':
-            lines = [f"• {row['product_name']} — RM{row['price']}" for _, row in top.iterrows()]
+            lines = [f"• {row['product_name']} — RM{float(row['price']) * USD_TO_MYR:.2f}" for _, row in top.iterrows()]
         elif intent_name == 'product_info':
             lines = [f"• {row['product_name']} (⭐{row['overall_rating']}/10)" for _, row in top.iterrows()]
         else:
