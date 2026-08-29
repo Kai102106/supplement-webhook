@@ -10,7 +10,7 @@ df = pd.read_csv('workout_supplement_product(AutoRecovered).csv', encoding='utf-
 
 # Short timing/FAQ tips shown alongside product_info answers, keyed by product_category
 # USD to MYR exchange rate — update this number whenever rates change
-USD_TO_MYR = 4.20
+USD_TO_MYR = 4.03
 
 TIPS = {
     "protein": "💡 Tip: Protein is best taken within an hour after your workout.",
